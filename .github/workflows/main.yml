@@ -4,6 +4,9 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,8 +26,13 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
       
+      - name: List build output
+        run: ls -la build/app/outputs/flutter-apk/ || echo "Directory not found"
+      
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: tume-ride-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: |
+            build/app/outputs/flutter-apk/*.apk
+            build/app/outputs/apk/release/*.apk
