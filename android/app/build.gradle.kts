@@ -6,8 +6,7 @@ plugins {
 
 android {
     namespace = "com.tume.ride.passenger"
-    compileSdk = 36
-    ndkVersion = flutter.ndkVersion
+    compileSdk = 34
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -20,10 +19,10 @@ android {
 
     defaultConfig {
         applicationId = "com.tume.ride.passenger"
-        minSdk = flutter.minSdkVersion
-        targetSdk = 36
-        versionCode = flutter.versionCode.toInt()
-        versionName = flutter.versionName
+        minSdk = 21
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0.0"
     }
 
     buildTypes {
