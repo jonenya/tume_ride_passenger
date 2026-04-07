@@ -73,12 +73,12 @@ class DarkTheme {
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       ),
-      cardTheme: CardThemeData(
+      cardTheme: const CardTheme(
         elevation: 0,
-        color: const Color(0xFF1E1E1E),
+        color: Color(0xFF1E1E1E),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-          side: const BorderSide(color: Colors.grey),
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+          side: BorderSide(color: Colors.grey),
         ),
         clipBehavior: Clip.antiAlias,
       ),
