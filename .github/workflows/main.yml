@@ -26,13 +26,20 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
       
-      - name: List build output
-        run: ls -la build/app/outputs/flutter-apk/ || echo "Directory not found"
+      - name: Find APK file
+        run: |
+          echo "Searching for APK files..."
+          find . -name "*.apk" -type f
+          echo ""
+          echo "Checking build directory..."
+          ls -la build/ || echo "No build directory"
+          ls -la build/app/ || echo "No build/app directory"
+          ls -la build/app/outputs/ || echo "No build/app/outputs directory"
+          ls -la build/app/outputs/flutter-apk/ || echo "No flutter-apk directory"
+          ls -la build/app/outputs/apk/ || echo "No apk directory"
       
-      - name: Upload APK
+      - name: Upload everything in build folder
         uses: actions/upload-artifact@v4
         with:
-          name: tume-ride-apk
-          path: |
-            build/app/outputs/flutter-apk/*.apk
-            build/app/outputs/apk/release/*.apk
+          name: build-folder
+          path: build/
