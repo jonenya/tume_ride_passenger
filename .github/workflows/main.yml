@@ -12,19 +12,20 @@ jobs:
       
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.22.0'
+          flutter-version: '3.16.9'
           channel: 'stable'
       
       - name: Fix theme files
         run: |
-          sed -i 's/CardThemeData(/const CardTheme(/g' lib/themes/light_theme.dart
-          sed -i 's/CardThemeData(/const CardTheme(/g' lib/themes/dark_theme.dart
+          sed -i 's/CardThemeData(/const CardTheme(/g' lib/themes/light_theme.dart || true
+          sed -i 's/CardThemeData(/const CardTheme(/g' lib/themes/dark_theme.dart || true
       
       - run: flutter clean
       - run: flutter pub get
       - run: flutter build apk --release
       
-      - uses: actions/upload-artifact@v4
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
         with:
           name: tume-ride-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/*.apk
