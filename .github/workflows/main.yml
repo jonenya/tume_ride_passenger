@@ -4,42 +4,27 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
       
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.22.0'
           channel: 'stable'
       
-      - name: Get dependencies
-        run: flutter pub get
-      
-      - name: Build APK
-        run: flutter build apk --release
-      
-      - name: Find APK file
+      - name: Fix theme files
         run: |
-          echo "Searching for APK files..."
-          find . -name "*.apk" -type f
-          echo ""
-          echo "Checking build directory..."
-          ls -la build/ || echo "No build directory"
-          ls -la build/app/ || echo "No build/app directory"
-          ls -la build/app/outputs/ || echo "No build/app/outputs directory"
-          ls -la build/app/outputs/flutter-apk/ || echo "No flutter-apk directory"
-          ls -la build/app/outputs/apk/ || echo "No apk directory"
+          sed -i 's/CardThemeData(/const CardTheme(/g' lib/themes/light_theme.dart
+          sed -i 's/CardThemeData(/const CardTheme(/g' lib/themes/dark_theme.dart
       
-      - name: Upload everything in build folder
-        uses: actions/upload-artifact@v4
+      - run: flutter clean
+      - run: flutter pub get
+      - run: flutter build apk --release
+      
+      - uses: actions/upload-artifact@v4
         with:
-          name: build-folder
-          path: build/
+          name: tume-ride-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
